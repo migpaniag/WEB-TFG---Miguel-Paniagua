@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programación TV</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <h1>Programación TV</h1>
+                <div class="header-buttons">
+                    <button id="themeToggle" class="theme-toggle">
+                        <i class="fas fa-lightbulb"></i>
+                    </button>
+                    <button onclick="window.location.href='all-sources.html'" class="all-epg-button">
+                        All EPG
+                    </button>
+                    <button onclick="window.location.href='all-in-one.html'" class="all-epg-button">
+                        All in One
+                    </button>
+                </div>
+            </div>
+            <div class="date-selector">
+                <button id="prevDay">←</button>
+                <span id="currentDate"></span>
+                <button id="nextDay">→</button>
+            </div>
+        </header>
+        
+        <main>
+            <div class="scrollable-content">
+                <div class="time-header">
+                    <div class="channel-column"></div>
+                    <div class="time-slots">
+                        <!-- Las horas se generarán dinámicamente -->
+                    </div>
+                </div>
+                <div class="channels-grid">
+                    <div class="channels-list">
+                        <!-- Los canales se cargarán dinámicamente -->
+                    </div>
+                    <div class="programs-container">
+                        <!-- Los programas se cargarán dinámicamente -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para detalles del programa -->
+    <div class="modal" id="programModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title"></h2>
+                <div class="modal-time-container">
+                    <span class="modal-time"></span>
+                    <button class="xmltv-button">Fuentes XMLTV</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-channel"></div>
+                <img class="modal-image" src="" alt="">
+                <div class="modal-description"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
