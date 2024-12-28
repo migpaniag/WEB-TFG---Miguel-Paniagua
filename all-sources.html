@@ -186,18 +186,26 @@
 
             async function loadSources() {
                 try {
-                    const response = await fetch('https://raw.githubusercontent.com/migpaniag/EPGS/main/all_in_one/all_in_one.xml');
-                    const xmlText = await response.text();
-                    const parser = new DOMParser();
-                    const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
-                    
-                    const channels = xmlDoc.getElementsByTagName('channel');
+                    // URL de la API de GitHub para listar archivos en el repositorio
+                    const apiUrl = 'https://api.github.com/repos/migpaniag/EPGS/contents/channels';
+
+                    // Realizar la solicitud a la API
+                    const response = await fetch(apiUrl);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const files = await response.json();
+
+                    // Filtrar solo los archivos XML
+                    const xmlFiles = files.filter(file => file.name.endsWith('.xml'));
+
+                    // Generar el HTML con la información de los archivos
                     let sourcesHtml = '';
 
-                    Array.from(channels).forEach(channel => {
-                        const channelId = channel.getAttribute('id');
-                        const channelName = channel.getElementsByTagName('display-name')[0]?.textContent || 'Canal sin nombre';
-                        const channelUrl = `https://raw.githubusercontent.com/migpaniag/EPGS/main/channels/${channelId}.xml`;
+                    xmlFiles.forEach(file => {
+                        const channelName = file.name.replace('.xml', ''); // El nombre del archivo sin extensión
+                        const channelUrl = file.download_url; // URL de descarga directa del archivo
 
                         sourcesHtml += `
                             <div class="source-item">
@@ -210,6 +218,7 @@
                         `;
                     });
 
+                    // Insertar el HTML generado en el contenedor
                     sourcesList.innerHTML = sourcesHtml;
                     window.copyToClipboard = copyToClipboard;
                 } catch (error) {
